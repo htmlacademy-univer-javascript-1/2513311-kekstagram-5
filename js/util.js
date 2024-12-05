@@ -3,3 +3,7 @@ function getRandomInt(min, max) {
 }
 
 export {getRandomInt};
+
+import { setupBigPicture } from './view-big-picture.js';
+const { addPictureListeners } = setupBigPicture();
+addPictureListeners();
