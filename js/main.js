@@ -1,8 +1,14 @@
-import './generate.js';
-import './util.js';
-import './miniatures.js';
-import { setupBigPicture } from './view-big-picture.js';
-import './validation.js';
+import {getPicture} from './generate.js';
+import {processPicture} from './miniatures.js';
 
-const { addPictureListeners } = setupBigPicture();
-addPictureListeners();
+const picturesContainer = document.querySelector('.pictures');
+processPicture(getPicture(), picturesContainer);
+
+import { renderGallery } from './gallery.js';
+
+
+const photos = getPicture();
+renderGallery(photos);
+
+// eslint-disable-next-line no-console
+console.log(getPicture());
