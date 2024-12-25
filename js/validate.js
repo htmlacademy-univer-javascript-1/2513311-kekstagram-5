@@ -7,7 +7,7 @@ const overlay = form.querySelector('.img-upload__overlay');
 const cancelButton = form.querySelector('.img-upload__cancel');
 const fileField = form.querySelector('.img-upload__input');
 const commentField = form.querySelector('.text_description');
-
+const submitButton = form.querySelector('.img-upload__submit');
 const hashtagField = form.querySelector('.text__hashtags');
 const MAX_HASHTAG_COUNT = 5;
 const VALID_SYMBOLS = /^#[a-zа-яё0-9]{1,19}$/i;
@@ -15,6 +15,11 @@ const ErrorText = {
   INVALID_COUNT: `Максимум ${MAX_HASHTAG_COUNT} хештегов`,
   NOT_UNIQUE: 'Хештеги должны быть уникальными',
   INVALID_PATTERN: 'Неправильный хештег',
+};
+
+const SubmitButtonText = {
+  IDLE: 'Опубликовать',
+  SUBMITTING: 'Отправляю...',
 };
 
 const pristine = new Pristine(form, {
@@ -82,3 +87,23 @@ pristine.addValidator(hashtagField, hasValidCount, ErrorText.INVALID_COUNT, 3, t
 pristine.addValidator(hashtagField, hasUniqueTags, ErrorText.NOT_UNIQUE, 1, true);
 
 pristine.addValidator(hashtagField, hasValidTags, ErrorText.INVALID_PATTERN, 2, true);
+
+const toggleSubmitButton = (isDisabled) => {
+  submitButton.disabled = isDisabled;
+  submitButton.textContent = isDisabled ? SubmitButtonText.SUBMITTING : SubmitButtonText.IDLE;
+};
+
+const setOnFormSubmit = (callback) => {
+  form.addEventListener('submit', async (evt) => {
+    evt.preventDefault();
+    const isValid = pristine.validate();
+
+    if (isValid) {
+      toggleSubmitButton(true);
+      await callback(new FormData(form));
+      toggleSubmitButton();
+    }
+  });
+};
+
+export{hideModal, setOnFormSubmit};
