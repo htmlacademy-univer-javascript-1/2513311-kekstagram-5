@@ -1,21 +1,23 @@
-import {generatePhotos} from './generate.js';
+const pictureTemplate = document.querySelector('#picture').content.querySelector('picture');
+const container = document.querySelector('pictures');
 
-const renderThumbnails = (photos) => {
-  const pictureTemplate = document.querySelector('#picture').content.querySelector('.picture');
-  const picturesContainer = document.querySelector('.pictures');
-  const fragment = document.createDocumentFragment();
+const createPicture = function({comments, description, likes, url}) {
+  const picture = pictureTemplate.cloneNode(true);
+  picture.querySelector('.picture__img').src = url;
+  picture.querySelector('.picture__img').alt = description;
+  picture.querySelector('.picture__comments').textContent = comments;
+  picture.querySelector('.picture__likes').textContent = likes;
 
-  photos.forEach((photo) => {
-    const pictureElement = pictureTemplate.cloneNode(true);
-    pictureElement.querySelector('.picture__img').src = photo.url;
-    pictureElement.querySelector('.picture__img').alt = photo.description;
-    pictureElement.querySelector('.picture__likes').textContent = photo.likes;
-    pictureElement.querySelector('.picture__comments').textContent = photo.comments.length;
-    fragment.appendChild(pictureElement);
-  });
-
-  picturesContainer.appendChild(fragment);
+  return picture;
 };
 
-const photosArray = generatePhotos();
-renderThumbnails(photosArray);
+const processPicture = function(pictures) {
+  const fragment = document.createDocumentFragment();
+  pictures.forEach((picture) => {
+    picture = createPicture(picture);
+    fragment.append(picture);
+  });
+  container.append(fragment);
+};
+
+export {processPicture};
