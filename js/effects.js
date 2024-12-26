@@ -104,6 +104,9 @@ const showSlide = () => {
 
 const hideSlide = () => {
   sliderContainerElement.classList.add('hidden');
+  if (sliderElement.noUiSlider) {
+    sliderElement.noUiSlider.set(0);
+  }
 };
 
 const updateSlider = () => {
@@ -133,10 +136,15 @@ const setSlider = () => {
 const setEffect = (effect) => {
   chosenEffect = effect;
   setSlider();
+  setImageStyle();
 };
 
 const reset = () => {
   setEffect(Effect.DEFAULT);
+  setImageStyle();
+  if (sliderElement.noUiSlider) {
+    sliderElement.noUiSlider.reset();
+  }
 };
 
 const onEffectChange = (evt) => {
