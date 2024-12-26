@@ -9,7 +9,11 @@ const fileField = form.querySelector('.img-upload__input');
 const commentField = form.querySelector('.text_description');
 const submitButton = form.querySelector('.img-upload__submit');
 const hashtagField = form.querySelector('.text__hashtags');
+const photoPreview = form.querySelector('.img-upload__preview img');
+const effectsPreviews = form.querySelectorAll('.effects__preview');
+
 const MAX_HASHTAG_COUNT = 5;
+const FILE_TYPES = ['jpg', 'jpeg', 'png'];
 const VALID_SYMBOLS = /^#[a-zа-яё0-9]{1,19}$/i;
 const ErrorText = {
   INVALID_COUNT: `Максимум ${MAX_HASHTAG_COUNT} хештегов`,
@@ -44,32 +48,19 @@ const hideModal = () => {
   document.removeEventListener('keydown', onDocumentKeydown);
 };
 
+const toggleSubmitButton = (isDisabled) => {
+  submitButton.disabled = isDisabled;
+  submitButton.textContent = isDisabled ? SubmitButtonText.SUBMITTING : SubmitButtonText.IDLE;
+};
+
+const isErrorMessageShown = () => Boolean(document.querySelector('.error'));
+
 const isTextFieldFocused = () => document.activeElement === hashtagField || document.activeElement === commentField;
 
-function onDocumentKeydown(evt) {
-  if (evt.key === 'Escape' && !isTextFieldFocused()) {
-    evt.preventDefault();
-    hideModal();
-  }
-}
-
-const onCancelButtonClick = () => {
-  hideModal();
+const isValidType = (file) => {
+  const fileName = file.name.toLowerCase();
+  return FILE_TYPES.some((it) => fileName.endsWith(it));
 };
-
-const onFileInputChange = () => {
-  showModal();
-};
-
-const onFormSubmit = (evt) => {
-  evt.preventDefault();
-  pristine.validate();
-};
-
-fileField.addEventListener('change', onFileInputChange);
-cancelButton.addEventListener('click', onCancelButtonClick);
-form.addEventListener('submit', onFormSubmit);
-initEffect();
 
 const normalizeTags = (tagString) => tagString.trim().split(' ').filter((tag) => Boolean(tag.length));
 
@@ -82,15 +73,28 @@ const hasUniqueTags = (value) => {
   return lowerCaseTags.length === new Set(lowerCaseTags).size;
 };
 
-pristine.addValidator(hashtagField, hasValidCount, ErrorText.INVALID_COUNT, 3, true);
+function onDocumentKeydown(evt) {
+  if (evt.key === 'Escape' && !isTextFieldFocused() && !isErrorMessageShown()) {
+    evt.preventDefault();
+    hideModal();
+  }
+}
 
-pristine.addValidator(hashtagField, hasUniqueTags, ErrorText.NOT_UNIQUE, 1, true);
+const onCancelButtonClick = () => {
+  hideModal();
+};
 
-pristine.addValidator(hashtagField, hasValidTags, ErrorText.INVALID_PATTERN, 2, true);
+const onFileInputChange = () => {
+  const file = fileField.files[0];
 
-const toggleSubmitButton = (isDisabled) => {
-  submitButton.disabled = isDisabled;
-  submitButton.textContent = isDisabled ? SubmitButtonText.SUBMITTING : SubmitButtonText.IDLE;
+  if (file && isValidType(file)) {
+    resetEffect();
+    photoPreview.src = URL.createObjectURL(file);
+    effectsPreviews.forEach((preview) => {
+      preview.style.backgroundImage = `url('${photoPreview.src}')`;
+    });
+  }
+  showModal();
 };
 
 const setOnFormSubmit = (callback) => {
@@ -105,5 +109,21 @@ const setOnFormSubmit = (callback) => {
     }
   });
 };
+
+const onFormSubmit = (evt) => {
+  evt.preventDefault();
+  pristine.validate();
+};
+
+fileField.addEventListener('change', onFileInputChange);
+cancelButton.addEventListener('click', onCancelButtonClick);
+form.addEventListener('submit', onFormSubmit);
+initEffect();
+
+pristine.addValidator(hashtagField, hasValidCount, ErrorText.INVALID_COUNT, 3, true);
+
+pristine.addValidator(hashtagField, hasUniqueTags, ErrorText.NOT_UNIQUE, 1, true);
+
+pristine.addValidator(hashtagField, hasValidTags, ErrorText.INVALID_PATTERN, 2, true);
 
 export{hideModal, setOnFormSubmit};
