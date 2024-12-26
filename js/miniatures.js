@@ -12,6 +12,7 @@ const createPicture = function({comments, description, likes, url, id}) {
 };
 
 const processPicture = function(pictures, container) {
+  container.querySelectorAll('.picture').forEach((element) => element.remove());
   const fragment = document.createDocumentFragment();
   pictures.forEach((picture) => {
     const thumbnail = createPicture(picture);
