@@ -49,6 +49,85 @@ const NAMES = [
   'Дарьяна'
 ];
 
+const Effect = {
+  DEFAULT: 'none',
+  CHROME: 'chrome',
+  SEPIA: 'sepia',
+  MARVIN: 'marvin',
+  PHOBOS: 'phobos',
+  HEAT: 'heat',
+};
+
+const effectToFilter = {
+  [Effect.CHROME]: {
+    style: 'grayscale',
+    unit: '',
+  },
+  [Effect.SEPIA]: {
+    style: 'sepia',
+    unit: '',
+  },
+  [Effect.MARVIN]: {
+    style: 'invert',
+    unit: '%',
+  },
+  [Effect.PHOBOS]: {
+    style: 'blur',
+    unit: 'px',
+  },
+  [Effect.HEAT]: {
+    style: 'brightness',
+    unit: '',
+  },
+};
+
+const effectToSliderOptionals = {
+  [Effect.DEFAULT]: {
+    min: 0,
+    max: 100,
+    step: 1,
+  },
+  [Effect.CHROME]: {
+    min: 0,
+    max: 1,
+    step: 0.1,
+  },
+  [Effect.SEPIA]: {
+    min: 0,
+    max: 1,
+    step: 0.1,
+  },
+  [Effect.MARVIN]: {
+    min: 0,
+    max: 100,
+    step: 1,
+  },
+  [Effect.PHOBOS]: {
+    min: 0,
+    max: 3,
+    step: 0.1,
+  },
+  [Effect.HEAT]: {
+    min: 1,
+    max: 3,
+    step: 0.1,
+  },
+};
+
+const BASE_URL = 'https://29.javascript.htmlacademy.pro/kekstagram';
+const Route = {
+  GET_DATA:'/data',
+  SEND_DATA: '/',
+};
+const Method = {
+  GET: 'GET',
+  POST: 'POST',
+};
+const ErrorText = {
+  GET_DATA: 'Не удалось загрузить данные. Попробуйте обновить страницу',
+  SEND_DATA: 'Не удалось отправить форму. Попробуйте еще раз',
+};
+
 const commentId = createId();
 
 const createMessage = () => Array.from(
@@ -81,4 +160,5 @@ const getPicture = () => Array.from(
 
 getPicture();
 
-export {getPicture};
+export {getPicture, Effect, effectToFilter, effectToSliderOptionals};
+export {BASE_URL, Route, Method, ErrorText};
