@@ -1,6 +1,6 @@
-import {getRandomArrayElement} from './util.js';
-import {getRandomInteger} from './util.js';
-import {createId} from './util.js';
+import { getRandomArrayElement } from './util.js';
+import { getRandomInteger } from './util.js';
+import { createId } from './util.js';
 
 const PICTURE_COUNT = 25;
 const AVATAR_COUNT = 6;
@@ -49,10 +49,89 @@ const NAMES = [
   'Дарьяна'
 ];
 
+const Effect = {
+  DEFAULT: 'none',
+  CHROME: 'chrome',
+  SEPIA: 'sepia',
+  MARVIN: 'marvin',
+  PHOBOS: 'phobos',
+  HEAT: 'heat',
+};
+
+const effectToFilter = {
+  [Effect.CHROME]: {
+    style: 'grayscale',
+    unit: '',
+  },
+  [Effect.SEPIA]: {
+    style: 'sepia',
+    unit: '',
+  },
+  [Effect.MARVIN]: {
+    style: 'invert',
+    unit: '%',
+  },
+  [Effect.PHOBOS]: {
+    style: 'blur',
+    unit: 'px',
+  },
+  [Effect.HEAT]: {
+    style: 'brightness',
+    unit: '',
+  },
+};
+
+const effectToSliderOptionals = {
+  [Effect.DEFAULT]: {
+    min: 0,
+    max: 100,
+    step: 1,
+  },
+  [Effect.CHROME]: {
+    min: 0,
+    max: 1,
+    step: 0.1,
+  },
+  [Effect.SEPIA]: {
+    min: 0,
+    max: 1,
+    step: 0.1,
+  },
+  [Effect.MARVIN]: {
+    min: 0,
+    max: 100,
+    step: 1,
+  },
+  [Effect.PHOBOS]: {
+    min: 0,
+    max: 3,
+    step: 0.1,
+  },
+  [Effect.HEAT]: {
+    min: 1,
+    max: 3,
+    step: 0.1,
+  },
+};
+
+const BASE_URL = 'https://29.javascript.htmlacademy.pro/kekstagram';
+const Route = {
+  GET_DATA: '/data',
+  SEND_DATA: '/',
+};
+const Method = {
+  GET: 'GET',
+  POST: 'POST',
+};
+const ErrorText = {
+  GET_DATA: 'Не удалось загрузить данные. Попробуйте обновить страницу',
+  SEND_DATA: 'Не удалось отправить форму. Попробуйте еще раз',
+};
+
 const commentId = createId();
 
 const createMessage = () => Array.from(
-  {length:getRandomInteger(1,2)},
+  { length: getRandomInteger(1, 2) },
   () => getRandomArrayElement(COMMENT_LINES),
 ).join(' ');
 
@@ -69,16 +148,17 @@ const createPicture = (index) => ({
   description: getRandomArrayElement(DESCRIPTION),
   likes: getRandomInteger(LIKE_MIN, LIKE_MAX),
   comments: Array.from(
-    {length: getRandomInteger(0, COMMENT_COUNT)},
+    { length: getRandomInteger(0, COMMENT_COUNT) },
     createComment,
   ),
 });
 
 const getPicture = () => Array.from(
-  {length: PICTURE_COUNT},
+  { length: PICTURE_COUNT },
   (_index, pictureIndex) => createPicture(pictureIndex + 1),
 );
 
 getPicture();
 
-export {getPicture};
+export { getPicture, Effect, effectToFilter, effectToSliderOptionals };
+export { BASE_URL, Route, Method, ErrorText };

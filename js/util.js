@@ -1,3 +1,5 @@
+const ALERT_SHOW_TIME = 5000;
+
 const getRandomInteger = (a, b) => {
   const lower = Math.ceil(Math.min(a, b));
   const upper = Math.floor(Math.max(a, b));
@@ -14,8 +16,6 @@ const createId = () => {
     return lastId;
   };
 };
-
-const ALERT_SHOW_TIME = 5000;
 
 const showAlert = (message) => {
   const alert = document.createElement('div');
@@ -44,5 +44,5 @@ const debounce = (callback, timeoutDelay = 500) => {
   };
 };
 
-export {getRandomArrayElement, getRandomInteger, createId, debounce, showAlert};
+export { createId, debounce, showAlert, getRandomInteger, getRandomArrayElement };
 

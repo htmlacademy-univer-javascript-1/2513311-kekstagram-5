@@ -1,8 +1,8 @@
-import {renderGallery} from './gallery.js';
-import {getData, sendData} from './api.js';
-import {showAlert, debounce} from './util.js';
-import {hideModal, setOnFormSubmit} from './validate.js';
-import {showSuccessMessage, showErrorMessage} from './message.js';
+import { renderGallery } from './gallery.js';
+import { getData, sendData } from './api.js';
+import { showAlert, debounce } from './util.js';
+import { hideModal, setOnFormSubmit } from './validate.js';
+import { showSuccessMessage, showErrorMessage } from './message.js';
 import { init as initFilter, getFilteredPictures } from './sorter.js';
 
 setOnFormSubmit(async (data) => {

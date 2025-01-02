@@ -1,6 +1,6 @@
 const pictureTemplate = document.querySelector('#picture').content.querySelector('.picture');
 
-const createPicture = function({comments, description, likes, url, id}) {
+const createPicture = ({ comments, description, likes, url, id }) => {
   const thumbnail = pictureTemplate.cloneNode(true);
   thumbnail.querySelector('.picture__img').src = url;
   thumbnail.querySelector('.picture__img').alt = description;
@@ -11,7 +11,7 @@ const createPicture = function({comments, description, likes, url, id}) {
   return thumbnail;
 };
 
-const processPicture = function(pictures, container) {
+const processPicture = (pictures, container) => {
   container.querySelectorAll('.picture').forEach((element) => element.remove());
   const fragment = document.createDocumentFragment();
   pictures.forEach((picture) => {
@@ -21,4 +21,4 @@ const processPicture = function(pictures, container) {
   container.append(fragment);
 };
 
-export {processPicture};
+export { processPicture };

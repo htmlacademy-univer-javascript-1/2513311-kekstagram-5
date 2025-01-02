@@ -1,67 +1,4 @@
-const Effect = {
-  DEFAULT: 'none',
-  CHROME: 'chrome',
-  SEPIA: 'sepia',
-  MARVIN: 'marvin',
-  PHOBOS: 'phobos',
-  HEAT: 'heat',
-};
-
-const effectToFilter = {
-  [Effect.CHROME]: {
-    style: 'grayscale',
-    unit: '',
-  },
-  [Effect.SEPIA]: {
-    style: 'sepia',
-    unit: '',
-  },
-  [Effect.MARVIN]: {
-    style: 'invert',
-    unit: '%',
-  },
-  [Effect.PHOBOS]: {
-    style: 'blur',
-    unit: 'px',
-  },
-  [Effect.HEAT]: {
-    style: 'brightness',
-    unit: '',
-  },
-};
-
-const effectToSliderOptionals = {
-  [Effect.DEFAULT]: {
-    min: 0,
-    max: 100,
-    step: 1,
-  },
-  [Effect.CHROME]: {
-    min: 0,
-    max: 1,
-    step: 0.1,
-  },
-  [Effect.SEPIA]: {
-    min: 0,
-    max: 1,
-    step: 0.1,
-  },
-  [Effect.MARVIN]: {
-    min: 0,
-    max: 100,
-    step: 1,
-  },
-  [Effect.PHOBOS]: {
-    min: 0,
-    max: 3,
-    step: 0.1,
-  },
-  [Effect.HEAT]: {
-    min: 1,
-    max: 3,
-    step: 0.1,
-  },
-};
+import { Effect, effectToFilter, effectToSliderOptionals } from './generate.js';
 
 const modalElement = document.querySelector('.img-upload');
 const imageElement = modalElement.querySelector('.img-upload__preview img');
@@ -88,9 +25,9 @@ const onSliderUpdate = () => {
   setImageStyle();
 };
 
-const createSlider = ({min, max, step}) => {
+const createSlider = ({ min, max, step }) => {
   noUiSlider.create(sliderElement, {
-    range: {min, max},
+    range: { min, max },
     step,
     start: max,
     connect: 'lower',
@@ -113,7 +50,7 @@ const updateSlider = () => {
   if (sliderElement.noUiSlider) {
     const { min, max, step } = effectToSliderOptionals[chosenEffect];
     sliderElement.noUiSlider.updateOptions({
-      range: {min, max},
+      range: { min, max },
       step,
       start: max,
     });

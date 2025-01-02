@@ -15,11 +15,13 @@ const scaleImage = (value) => {
 };
 
 const onSmallButton = () => {
-  scaleImage(Math.max(parseInt(scaleInputElement.value, 10) - SCALE_STEP, MIN_SCALE));
+  const newScaleValue = parseInt(scaleInputElement.value, 10) - SCALE_STEP;
+  scaleImage(Math.max(newScaleValue, MIN_SCALE));
 };
 
 const onBigButton = () => {
-  scaleImage(Math.max(parseInt(scaleInputElement.value, 10) + SCALE_STEP, MAX_SCALE));
+  const newScaleValue = parseInt(scaleInputElement.value, 10) + SCALE_STEP;
+  scaleImage(Math.min(newScaleValue, MAX_SCALE));
 };
 
 const resetScale = () => scaleImage(DEFAULT_SCALE);
@@ -27,4 +29,4 @@ const resetScale = () => scaleImage(DEFAULT_SCALE);
 smallButtonElement.addEventListener('click', onSmallButton);
 bigButtonElement.addEventListener('click', onBigButton);
 
-export{ resetScale };
+export { resetScale };
