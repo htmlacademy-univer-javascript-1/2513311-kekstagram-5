@@ -41,4 +41,4 @@ const showErrorMessage = () => {
   showMessage(errorMessage, '.error__button');
 };
 
-export{showSuccessMessage, showErrorMessage};
+export { showSuccessMessage, showErrorMessage };

@@ -1,6 +1,6 @@
-import {getRandomArrayElement} from './util.js';
-import {getRandomInteger} from './util.js';
-import {createId} from './util.js';
+import { getRandomArrayElement } from './util.js';
+import { getRandomInteger } from './util.js';
+import { createId } from './util.js';
 
 const PICTURE_COUNT = 25;
 const AVATAR_COUNT = 6;
@@ -116,7 +116,7 @@ const effectToSliderOptionals = {
 
 const BASE_URL = 'https://29.javascript.htmlacademy.pro/kekstagram';
 const Route = {
-  GET_DATA:'/data',
+  GET_DATA: '/data',
   SEND_DATA: '/',
 };
 const Method = {
@@ -131,7 +131,7 @@ const ErrorText = {
 const commentId = createId();
 
 const createMessage = () => Array.from(
-  {length:getRandomInteger(1,2)},
+  { length: getRandomInteger(1, 2) },
   () => getRandomArrayElement(COMMENT_LINES),
 ).join(' ');
 
@@ -148,17 +148,17 @@ const createPicture = (index) => ({
   description: getRandomArrayElement(DESCRIPTION),
   likes: getRandomInteger(LIKE_MIN, LIKE_MAX),
   comments: Array.from(
-    {length: getRandomInteger(0, COMMENT_COUNT)},
+    { length: getRandomInteger(0, COMMENT_COUNT) },
     createComment,
   ),
 });
 
 const getPicture = () => Array.from(
-  {length: PICTURE_COUNT},
+  { length: PICTURE_COUNT },
   (_index, pictureIndex) => createPicture(pictureIndex + 1),
 );
 
 getPicture();
 
-export {getPicture, Effect, effectToFilter, effectToSliderOptionals};
-export {BASE_URL, Route, Method, ErrorText};
+export { getPicture, Effect, effectToFilter, effectToSliderOptionals };
+export { BASE_URL, Route, Method, ErrorText };

@@ -44,5 +44,5 @@ const debounce = (callback, timeoutDelay = 500) => {
   };
 };
 
-export {createId, debounce, showAlert, getRandomInteger,getRandomArrayElement};
+export { createId, debounce, showAlert, getRandomInteger, getRandomArrayElement };
 

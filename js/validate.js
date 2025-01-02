@@ -1,5 +1,5 @@
 import { resetScale } from './scale.js';
-import { init as initEffect, reset as resetEffect} from './effects.js';
+import { init as initEffect, reset as resetEffect } from './effects.js';
 
 const MAX_HASHTAG_COUNT = 5;
 const FILE_TYPES = ['jpg', 'jpeg', 'png'];
@@ -65,9 +65,7 @@ const isValidType = (file) => {
 };
 
 const normalizeTags = (tagString) => tagString.trim().split(' ').filter((tag) => Boolean(tag.length));
-
 const hasValidTags = (value) => normalizeTags(value).every((tag) => VALID_SYMBOLS.test(tag));
-
 const hasValidCount = (value) => normalizeTags(value).length <= MAX_HASHTAG_COUNT;
 
 const hasUniqueTags = (value) => {
@@ -123,9 +121,7 @@ form.addEventListener('submit', onFormSubmit);
 initEffect();
 
 pristine.addValidator(hashtagField, hasValidCount, ErrorText.INVALID_COUNT, 3, true);
-
 pristine.addValidator(hashtagField, hasUniqueTags, ErrorText.NOT_UNIQUE, 1, true);
-
 pristine.addValidator(hashtagField, hasValidTags, ErrorText.INVALID_PATTERN, 2, true);
 
-export{hideModal, setOnFormSubmit};
+export { hideModal, setOnFormSubmit };

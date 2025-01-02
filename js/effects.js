@@ -1,4 +1,4 @@
-import {Effect, effectToFilter, effectToSliderOptionals} from './generate.js';
+import { Effect, effectToFilter, effectToSliderOptionals } from './generate.js';
 
 const modalElement = document.querySelector('.img-upload');
 const imageElement = modalElement.querySelector('.img-upload__preview img');
@@ -25,9 +25,9 @@ const onSliderUpdate = () => {
   setImageStyle();
 };
 
-const createSlider = ({min, max, step}) => {
+const createSlider = ({ min, max, step }) => {
   noUiSlider.create(sliderElement, {
-    range: {min, max},
+    range: { min, max },
     step,
     start: max,
     connect: 'lower',
@@ -50,7 +50,7 @@ const updateSlider = () => {
   if (sliderElement.noUiSlider) {
     const { min, max, step } = effectToSliderOptionals[chosenEffect];
     sliderElement.noUiSlider.updateOptions({
-      range: {min, max},
+      range: { min, max },
       step,
       start: max,
     });

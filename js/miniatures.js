@@ -1,6 +1,6 @@
 const pictureTemplate = document.querySelector('#picture').content.querySelector('.picture');
 
-const createPicture = ({comments, description, likes, url, id}) => {
+const createPicture = ({ comments, description, likes, url, id }) => {
   const thumbnail = pictureTemplate.cloneNode(true);
   thumbnail.querySelector('.picture__img').src = url;
   thumbnail.querySelector('.picture__img').alt = description;
@@ -21,4 +21,4 @@ const processPicture = (pictures, container) => {
   container.append(fragment);
 };
 
-export {processPicture};
+export { processPicture };

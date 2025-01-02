@@ -9,7 +9,7 @@ const bodyElement = document.querySelector('body');
 const cancelElement = bigPictureElement.querySelector('.big-picture__cancel');
 const commentElementTemplate = document.querySelector('.social__comment');
 
-const createComment = function({ avatar, name, message }) {
+const createComment = function ({ avatar, name, message }) {
   const comment = commentElementTemplate.cloneNode(true);
   const element = comment.querySelector('.social__picture');
   element.src = avatar;
@@ -22,7 +22,7 @@ const createComment = function({ avatar, name, message }) {
 let commentsShown = 0;
 let comments = [];
 
-const renderComments = function() {
+const renderComments = function () {
   commentsShown += COMMENTS_PER_PORTION;
 
   if (commentsShown >= comments.length) {
@@ -44,7 +44,7 @@ const renderComments = function() {
   commentCountElement.textContent = comments.length;
 };
 
-const hidePicture = function() {
+const hidePicture = function () {
   bigPictureElement.classList.add('hidden');
   bodyElement.classList.remove('modal-open');
   document.removeEventListener('keydown', onDocumentKeydown);
@@ -52,21 +52,21 @@ const hidePicture = function() {
 };
 
 function onDocumentKeydown(evt) {
-  if(evt.key === 'Escape') {
+  if (evt.key === 'Escape') {
     evt.preventDefault();
     hidePicture();
   }
 }
 
-const onCancelButtonClick = function() {
+const onCancelButtonClick = function () {
   hidePicture();
 };
 
-const onCommentLoadClick = function() {
+const onCommentLoadClick = function () {
   renderComments();
 };
 
-const renderPictureDetails = function({ url, likes, description }) {
+const renderPictureDetails = function ({ url, likes, description }) {
   const element = bigPictureElement.querySelector('.big-picture__img img');
   element.src = url;
   element.alt = description;
@@ -74,7 +74,7 @@ const renderPictureDetails = function({ url, likes, description }) {
   bigPictureElement.querySelector('.social__caption').textContent = description;
 };
 
-const showBigPicture = function(data) {
+const showBigPicture = function (data) {
   bigPictureElement.classList.remove('hidden');
   bodyElement.classList.add('modal-open');
   commentLoadElement.classList.add('hidden');
