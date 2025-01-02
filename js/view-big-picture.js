@@ -11,9 +11,9 @@ const commentElementTemplate = document.querySelector('.social__comment');
 
 const createComment = function({ avatar, name, message }) {
   const comment = commentElementTemplate.cloneNode(true);
-
-  comment.querySelector('.social__picture').src = avatar;
-  comment.querySelector('.social__picture').alt = name;
+  const element = comment.querySelector('.social__picture');
+  element.src = avatar;
+  element.alt = name;
   comment.querySelector('.social__text').textContent = message;
 
   return comment;
@@ -67,8 +67,9 @@ const onCommentLoadClick = function() {
 };
 
 const renderPictureDetails = function({ url, likes, description }) {
-  bigPictureElement.querySelector('.big-picture__img img').src = url;
-  bigPictureElement.querySelector('.big-picture__img img').alt = description;
+  const element = bigPictureElement.querySelector('.big-picture__img img');
+  element.src = url;
+  element.alt = description;
   bigPictureElement.querySelector('.likes-count').textContent = likes;
   bigPictureElement.querySelector('.social__caption').textContent = description;
 };
