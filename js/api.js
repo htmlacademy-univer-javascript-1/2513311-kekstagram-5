@@ -1,18 +1,26 @@
-import { BASE_URL, Route, Method, ErrorText } from './generate.js';
+const BASE_URL = 'https://29.javascript.htmlacademy.pro/kekstagram';
 
-const load = (route, errorText, method = Method.GET, body = null) =>
-  fetch(`${BASE_URL}${route}`, { method, body })
-    .then((response) => {
-      if (!response.ok) {
-        throw new Error();
-      }
-      return response.json();
+const ROUTE = {
+  GET_DATA: '/data',
+  SEND_DATA: '/',
+};
+const METHOD = {
+  GET: 'GET',
+  POST: 'POST',
+};
+
+const execRequest = (route, onError, onSuccess, method = METHOD.GET, body = null) =>
+  fetch(
+    `${BASE_URL}${route}`, { method: method, body: body }
+  )
+    .then((response) => response.json())
+    .then((data) => {
+      onSuccess(data);
     })
-    .catch(() => {
-      throw new Error(errorText);
-    });
+    .catch(onError);
 
-const getData = () => load(Route.GET_DATA, ErrorText.GET_DATA);
-const sendData = (body) => load(Route.SEND_DATA, ErrorText.SEND_DATA, Method.POST, body);
+const getData = (onSuccess, onError) => execRequest(ROUTE.GET_DATA, onError, onSuccess);
+
+const sendData = (body, onSuccess, onError) => execRequest(ROUTE.SEND_DATA, onError, onSuccess, METHOD.POST, body, true);
 
 export { getData, sendData };
