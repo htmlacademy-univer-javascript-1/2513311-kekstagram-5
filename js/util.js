@@ -1,42 +1,100 @@
-const ALERT_SHOW_TIME = 5000;
+class Filter {
+  constructor(name, min, max, step) {
+    this.name = name;
+    this.min = min;
+    this.max = max;
+    this.step = step;
+  }
+}
 
-const getRandomInteger = (a, b) => {
+const getRandomNumber = (a, b) => {
   const lower = Math.ceil(Math.min(a, b));
   const upper = Math.floor(Math.max(a, b));
   const result = Math.random() * (upper - lower + 1) + lower;
   return Math.floor(result);
 };
 
-const getRandomArrayElement = (items) => items[getRandomInteger(0, items.length - 1)];
+const createRandomGenerator = (min, max) => {
+  const previousValues = [];
 
-const createId = () => {
-  let lastId = 0;
-  return () => {
-    lastId += 1;
-    return lastId;
+  return function () {
+    let currentValue = getRandomNumber(min, max);
+    if (previousValues.length >= (max - min + 1)) {
+      return null;
+    }
+    while (previousValues.includes(currentValue)) {
+      currentValue = getRandomNumber(min, max);
+    }
+    previousValues.push(currentValue);
+    return currentValue;
   };
 };
 
-const showAlert = (message) => {
-  const alert = document.createElement('div');
-  alert.style.position = 'absolute';
-  alert.style.zIndex = '100';
-  alert.style.left = '0';
-  alert.style.top = '0';
-  alert.style.right = '0';
-  alert.style.padding = '10px 3px';
-  alert.style.fontSize = '30px';
-  alert.style.textAlign = 'center';
-  alert.style.backgroundColor = 'red';
-  alert.textContent = message;
-  document.body.append(alert);
+const takeRandomElements = (array, length, randomizer) => Array.from({ length: length }, () => array[randomizer()]);
 
-  setTimeout(() => {
-    alert.remove();
-  }, ALERT_SHOW_TIME);
+const toggleButtons = (buttons, activeId) => {
+  const currentActive = document.querySelector(`#${activeId}`);
+  for (let i = 0; i < buttons.length; ++i) {
+    if (buttons[i].classList.contains('img-filters__button--active')) {
+      buttons[i].classList.remove('img-filters__button--active');
+      buttons[i].disabled = false;
+    }
+
+    currentActive.classList.add('img-filters__button--active');
+    currentActive.disabled = true;
+  }
 };
 
-const debounce = (callback, timeoutDelay = 500) => {
+const isEscapeKey = (evt) => evt.key === 'Escape';
+
+const onModalKeydown = (evt) => {
+  if (isEscapeKey(evt)) {
+    deleteResultMessage();
+  }
+};
+
+const onModalButtonClick = () => {
+  deleteResultMessage();
+};
+
+const awayModalClick = (evt) => {
+  if (evt.target === document.body.lastElementChild) {
+    deleteResultMessage();
+  }
+};
+
+const isOnFocus = (elementClass) => document.activeElement.classList.contains(`${elementClass}`);
+
+function deleteResultMessage() {
+  const addedMessage = document.body.lastElementChild;
+  addedMessage.querySelector('button').removeEventListener('click', onModalButtonClick);
+  document.removeEventListener('keydown', onModalKeydown);
+  document.removeEventListener('click', awayModalClick);
+  addedMessage.remove();
+
+}
+
+const showModal = (templateId) => {
+  const messageTemplate = document.querySelector(`#${templateId}`).content;
+  const message = messageTemplate.cloneNode(true);
+  const messageFragment = document.createDocumentFragment();
+  messageFragment.appendChild(message);
+  document.body.appendChild(messageFragment);
+};
+
+const showResultMessage = (templateId) => {
+  showModal(templateId);
+  const btn = document.querySelector(`.${templateId}__button`);
+  document.addEventListener('keydown', onModalKeydown);
+  document.addEventListener('click', awayModalClick);
+  btn.addEventListener('click', onModalButtonClick);
+};
+
+const showUploadSucccessMessage = () => showResultMessage('success');
+const showUploadErrorMessage = () => showResultMessage('error');
+const alertLoadError = () => showModal('data-error');
+
+const debounce = (callback, timeoutDelay) => {
   let timeoutId;
   return (...rest) => {
     clearTimeout(timeoutId);
@@ -44,5 +102,15 @@ const debounce = (callback, timeoutDelay = 500) => {
   };
 };
 
-export { createId, debounce, showAlert, getRandomInteger, getRandomArrayElement };
-
+export {
+  showUploadSucccessMessage,
+  showUploadErrorMessage,
+  alertLoadError,
+  takeRandomElements,
+  toggleButtons,
+  debounce,
+  createRandomGenerator,
+  isEscapeKey,
+  isOnFocus,
+  Filter
+};

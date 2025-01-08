@@ -1,25 +1,19 @@
-import { renderGallery } from './gallery.js';
-import { getData, sendData } from './api.js';
-import { showAlert, debounce } from './util.js';
-import { hideModal, setOnFormSubmit } from './validate.js';
-import { showSuccessMessage, showErrorMessage } from './message.js';
-import { init as initFilter, getFilteredPictures } from './sorter.js';
+import { getData } from './api.js';
+import { setFormSubmit } from './validate.js';
+import { addFilters } from './filter.js';
+import { createPicture } from './miniatures.js';
+import { alertLoadError } from './util.js';
 
-setOnFormSubmit(async (data) => {
-  try {
-    await sendData(data);
-    hideModal();
-    showSuccessMessage();
-  } catch {
-    showErrorMessage();
-  }
-});
+let photos = [];
 
-try {
-  const data = await getData();
-  const debouncedRenderGallery = debounce(renderGallery);
-  initFilter(data, debouncedRenderGallery);
-  renderGallery(getFilteredPictures());
-} catch (err) {
-  showAlert(err.message);
-}
+const onLoadSuccess = (data) => {
+  photos = data.slice();
+  createPicture(photos);
+  document.querySelector('.img-filters').classList.remove('img-filters--inactive');
+};
+
+getData(onLoadSuccess, alertLoadError);
+addFilters();
+setFormSubmit();
+
+export { photos };

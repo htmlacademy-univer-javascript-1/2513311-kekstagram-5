@@ -1,24 +1,31 @@
-const pictureTemplate = document.querySelector('#picture').content.querySelector('.picture');
+import { showBigPicture } from './view-big-picture.js';
 
-const createPicture = ({ comments, description, likes, url, id }) => {
-  const thumbnail = pictureTemplate.cloneNode(true);
-  thumbnail.querySelector('.picture__img').src = url;
-  thumbnail.querySelector('.picture__img').alt = description;
-  thumbnail.querySelector('.picture__comments').textContent = comments.length;
-  thumbnail.querySelector('.picture__likes').textContent = likes;
-  thumbnail.dataset.pictureId = id;
+const photoTemplate = document.querySelector('#picture')
+  .content
+  .querySelector('.picture');
+const photosFragment = document.createDocumentFragment();
+const photosContainer = document.querySelector('.pictures');
 
-  return thumbnail;
-};
+const createPicture = (data) => {
+  data.forEach(({ url, description, likes, comments }) => {
+    const photo = photoTemplate.cloneNode(true);
+    photo.querySelector('.picture__img').src = url;
+    photo.querySelector('.picture__img').alt = description;
+    photo.querySelector('.picture__info')
+      .querySelector('.picture__likes').textContent = likes;
+    photo.querySelector('.picture__info')
+      .querySelector('.picture__comments').textContent = comments.length;
 
-const processPicture = (pictures, container) => {
-  container.querySelectorAll('.picture').forEach((element) => element.remove());
-  const fragment = document.createDocumentFragment();
-  pictures.forEach((picture) => {
-    const thumbnail = createPicture(picture);
-    fragment.append(thumbnail);
+    photosFragment.appendChild(photo);
+    photo.addEventListener('click', (evt) => {
+      evt.preventDefault();
+      showBigPicture(url, description, likes, comments);
+    });
   });
-  container.append(fragment);
+
+  photosContainer.appendChild(photosFragment);
 };
 
-export { processPicture };
+const deletePhotos = () => photosContainer.querySelectorAll('.picture').forEach((element) => element.remove());
+
+export { createPicture, deletePhotos };
